@@ -1,0 +1,28 @@
+# Core
+streamlit==1.39.0
+python-dotenv==1.0.1
+requests==2.32.3
+
+# LangChain core + OpenAI + community
+langchain-community
+langchain_huggingface
+langchain>=0.3.3
+langchain-openai>=0.1.7
+
+# Embeddings locali
+sentence-transformers==3.2.0
+
+# Vector DB locale
+faiss-cpu==1.8.0.post1
+
+# PDF + OCR
+pymupdf==1.24.10
+pytesseract==0.3.13
+Pillow==10.4.0
+
+# OpenAI
+openai>=1.0.0
+tiktoken==0.7.0
+
+
+torchvision
