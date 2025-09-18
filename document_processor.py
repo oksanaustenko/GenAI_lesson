@@ -1,5 +1,5 @@
 import tempfile
-from langchain.text_splitter import CharacterTextSplitter
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.schema import Document
 import fitz  # PyMuPDF per PDF
 import pytesseract
@@ -7,7 +7,7 @@ from PIL import Image
 
 class DocumentProcessor:
     def __init__(self):
-        self.splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+        self.splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
 
     def from_text(self, text: str, metadata=None):
         text = text.strip()
