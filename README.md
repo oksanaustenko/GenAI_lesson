@@ -14,10 +14,11 @@ Questo progetto implementa un **chatbot RAG (Retrieval-Augmented Generation)** c
 ##  Funzionalità principali
 
 - Supporta più tipologie di file: codice Python, PDF (testo e OCR), immagini (OCR), testo e CSV.
-- Usa **FAISS** come VectorDB locale (nessun servizio esterno).
+- Usa **FAISS** come VectorDB:
+  - locale (nessun servizio esterno) 
+  - persistente (su file, quindi puoi riutilizzare un DB già creato senza dover ricalcolare embeddings).
 - Embeddings generati con **sentence-transformers/all-MiniLM-L6-v2** (open-source).
 - **OpenAI LLM** (es. `gpt-4o-mini`, `gpt-3.5-turbo`) per generare risposte contestuali.
-- Persistenza FAISS: puoi riutilizzare un DB già creato senza dover ricalcolare embeddings.
 - Debug integrato: mostra quanti chunk sono stati caricati e quali documenti vengono recuperati dal retriever.
 
 ---
