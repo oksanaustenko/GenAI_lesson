@@ -8,14 +8,28 @@ import os
 processor = DocumentProcessor()
 indexer = EmbeddingIndexer()
 
-st.title("📚 Multi-Source RAG Chatbot with FAISS Persistence")
+st.title("Tutorial RAG Chatbot ")
 
+# inizializza stato
 if "sources" not in st.session_state:
     st.session_state.sources = []
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+if "last_mode" not in st.session_state:
+    st.session_state.last_mode = None
 
+# selezione modalità
 mode = st.radio("Choose mode:", ["🔄 Load Existing DB", "🆕 Build New DB"])
 
-# === MODE: BUILD NEW DB ===
+# reset se cambio modalità
+if mode != st.session_state.last_mode:
+    st.session_state.sources = []
+    st.session_state.messages = []
+    if "chatbot" in st.session_state:
+        del st.session_state["chatbot"]
+    st.session_state.last_mode = mode
+
+# BUILD NEW DB
 if mode == "🆕 Build New DB":
     st.subheader("Upload Sources")
 
@@ -26,13 +40,11 @@ if mode == "🆕 Build New DB":
     )
 
     if uploaded_files:
-        # Evita duplicati
         existing_files = {src[1].name for src in st.session_state.sources if src[0] == "file"}
         for f in uploaded_files:
             if f.name not in existing_files:
                 st.session_state.sources.append(("file", f))
 
-    # Mostra le fonti correnti senza duplicati
     unique_files = {src[1].name for src in st.session_state.sources if src[0] == "file"}
     if unique_files:
         st.write("### Current Sources:")
@@ -82,7 +94,7 @@ if mode == "🆕 Build New DB":
             if skipped_sources:
                 st.warning("⚠️ Fonti scartate (vuote o non leggibili):\n- " + "\n- ".join(skipped_sources))
 
-# === MODE: LOAD EXISTING DB ===
+# LOAD EXISTING DB
 elif mode == "🔄 Load Existing DB":
     if os.path.exists("faiss_index"):
         if st.button("📂 Load FAISS DB"):
@@ -93,11 +105,8 @@ elif mode == "🔄 Load Existing DB":
     else:
         st.warning("⚠️ No saved FAISS DB found. Please build one first.")
 
-# === CHAT UI ===
+# CHAT UI
 if "chatbot" in st.session_state:
-    if "messages" not in st.session_state:
-        st.session_state.messages = []
-
     for msg in st.session_state.messages:
         st.chat_message(msg["role"]).markdown(msg["content"])
 
